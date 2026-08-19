@@ -17,6 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from CompanyApp.views import departments_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('modele/', departments_view)
 ]
+

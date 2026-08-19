@@ -55,6 +55,11 @@ Pentru a inregistra un model in admin ( pentru a-l putea modifica din /admin )
 Pentru a inlocui default SQLite3 cu MySQL
 1. instalarea clientului mysql
 # pip install mysqlclient
+alernativ (macOS) are nevoie de urmatoarele modificari
+# pip install PyMySQL
+si in __init__.py din proiect(doar daca nu merge mysqlclient):
+    # import pymysql
+    # pymysql.install_as_MySQLdb()
 2. navigam in proiect -> settings.py
 3. inlocuiesc datele pentru SQLite3 cu Mysql in variabila DATABASES si o comentez pe cea veche
 <!-- DATABASES = {
@@ -87,3 +92,23 @@ adica:
     -> GRANT ALL PRIVILEGES ON my_django_database.* TO'my_django_databaseuser'@'127.0.0.1';
 # 'HOST': '127.0.0.1' -> host local
 # 'PORT': '3306' -> port specific pentru mysql
+
+Dupa conectarea la noua baza de date:
+# python manage.py makemigrations
+# python manage.py migrate
+
+Pentru a vedea modelele dintr-o interfata
+1. Template (HTML)
+    -> in aplicatia modelului creez un folder 'templates' ( obligatoriu sa fie exact templates)
+    -> in folderul 'templates' creez fisier .html care va afisa modelele
+2.  View (functia) - leaga o cerere de server cu modelul de template (html)
+
+    def departments_view(request):
+
+    ## ORM face in spate un SELECT * FROM departament
+    all_departments = Departament.objects.all()
+
+    return(render(request, 'modele.html', context = {'departments': all_departments}))
+
+3. URL - link ul la care functia view din view.py raspunde
+    -> in urls.py din proiect
